@@ -1,0 +1,80 @@
+/* Input fields */
+.input-field {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #dcdde1;
+    -fx-background-color: rgba(255, 255, 255, 0.85);
+    -fx-prompt-text-fill: #34495e;
+    -fx-font-size: 13px;
+    -fx-padding: 8;
+}
+
+/* Buttons with vibrant effects */
+.action-button-green {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+}
+.action-button-green:hover {
+    -fx-background-color: #2ecc71;
+}
+
+.action-button-blue {
+    -fx-background-color: #2980b9;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+}
+.action-button-blue:hover {
+    -fx-background-color: #3498db;
+}
+
+.action-button-red {
+    -fx-background-color: #c0392b;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+}
+.action-button-red:hover {
+    -fx-background-color: #e74c3c;
+}
+
+.action-button-gray {
+    -fx-background-color: #7f8c8d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+}
+.action-button-gray:hover {
+    -fx-background-color: #95a5a6;
+}
+
+.button-back {
+    -fx-background-color: linear-gradient(to right, #c31432, #240b36);
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 4, 0, 0, 2);
+}
+
+.button-back:hover {
+    -fx-background-color: linear-gradient(to right, #ff416c, #ff4b2b);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 6, 0, 0, 3);
+}
+
+.button-back:pressed {
+    -fx-background-color: #7a0f25;
+}
+
+
+/* Table */
+.table-view {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}

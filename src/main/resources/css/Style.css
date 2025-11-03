@@ -1,0 +1,56 @@
+/* Left pane with your background image */
+.left-pane {
+    -fx-background-image: url("../images/thoga kade.png");
+    -fx-background-size: cover; /* Make the image cover the whole pane */
+    -fx-background-position: center;
+}
+
+/* An overlay to put on top of the image */
+.left-pane-overlay {
+    /* A semi-transparent blue tint */
+    -fx-background-color: rgba(43, 151, 251, 0.7);
+}
+
+/* A big title for your brand */
+.brand-title {
+    -fx-font-size: 52px;
+    -fx-font-family: "Bernard MT Condensed"; /* Using your original font */
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 15, 0, 2, 2);
+}
+
+/* The right pane for your login controls */
+.right-pane {
+    -fx-background-color: #ffffff; /* Clean white background */
+    -fx-padding: 40px; /* Add some spacing */
+}
+
+/* A header for the "Welcome" text */
+.welcome-header {
+    -fx-font-size: 42px;
+    -fx-font-family: "Arial Black"; /* A strong, modern font */
+    -fx-text-fill: #222222; /* Dark grey text */
+    -fx-padding: 0 0 20px 0; /* Add some space below the title */
+}
+
+/* Style for the login button */
+.login-button {
+    -fx-background-color: #2b97fb;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 2, 4);
+    -fx-cursor: hand;
+
+    /* Set a consistent size */
+    -fx-pref-width: 275px;
+    -fx-pref-height: 50px;
+}
+
+.login-button:hover {
+    -fx-background-color: #1a88e8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0, 3, 6);
+}

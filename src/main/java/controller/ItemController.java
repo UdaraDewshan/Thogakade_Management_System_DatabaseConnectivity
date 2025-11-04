@@ -1,5 +1,6 @@
 package controller;
 
+import connectionDB.ConnectionOB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +14,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.dto.CustomerDTO;
 import model.dto.ItemDTO;
 
 import javax.swing.*;
@@ -102,7 +102,7 @@ public class ItemController implements Initializable {
     private void loadTable() {
         itemDTOS.clear();
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select * FROM item");
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -117,7 +117,7 @@ public class ItemController implements Initializable {
                 itemDTOS.add(itemDTO);
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -133,7 +133,7 @@ public class ItemController implements Initializable {
         double unitPrice = Double.parseDouble(txtPrice.getText());
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO item VALUES(?,?,?,?,?)");
             preparedStatement.setObject(1,itemCode);
             preparedStatement.setObject(2,description);
@@ -142,7 +142,7 @@ public class ItemController implements Initializable {
             preparedStatement.setObject(5,unitPrice);
 
             preparedStatement.execute();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -176,7 +176,7 @@ public class ItemController implements Initializable {
     void btnDeleteAction(ActionEvent event) {
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM item WHERE ItemCode = ? ");
             preparedStatement.setObject(1,txtItemCode.getText());
             int i = preparedStatement.executeUpdate();
@@ -187,7 +187,7 @@ public class ItemController implements Initializable {
                 JOptionPane.showMessageDialog(null,"DELETE UNSUCCESS");
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -204,7 +204,7 @@ public class ItemController implements Initializable {
         double unitPrice = Double.parseDouble(txtPrice.getText());
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE item SET Description = ?, Category = ?, QtyOnHand = ? , UnitPrice = ? WHERE ItemCode = ?");
             preparedStatement.setObject(1,description);
             preparedStatement.setObject(2,category);
@@ -219,7 +219,7 @@ public class ItemController implements Initializable {
                 JOptionPane.showMessageDialog(null,"Update Unsuccess");
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 

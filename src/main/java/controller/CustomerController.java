@@ -1,5 +1,6 @@
 package controller;
 
+import connectionDB.ConnectionOB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -144,7 +145,7 @@ public class CustomerController implements Initializable {
          String postalCode = txtPostalCode.getText();
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO customer VALUES(?,?,?,?,?,?,?,?,?)");
 
             preparedStatement.setString(1,custID);
@@ -164,7 +165,7 @@ public class CustomerController implements Initializable {
             } else {
                 JOptionPane.showMessageDialog(null, "Add Unsuccessful!");
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         loadCustomerDetails();
@@ -196,11 +197,11 @@ public class CustomerController implements Initializable {
     @FXML
     void btnDeleteAction(ActionEvent event) {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM customer WHERE CustomerID = ?");
             preparedStatement.setString(1,txtCustID.getText());
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         loadCustomerDetails();
@@ -220,7 +221,7 @@ public class CustomerController implements Initializable {
         String postalCode = txtPostalCode.getText();
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE customer SET Title =?, Name =?, DateOfBirth=?, Salary =?, Address= ? ,City=? , Province= ?, PostalCode=? WHERE CustomerID = ?");
 
             preparedStatement.setObject(1,title);
@@ -235,7 +236,7 @@ public class CustomerController implements Initializable {
 
             preparedStatement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -275,7 +276,7 @@ public class CustomerController implements Initializable {
     private void loadCustomerDetails(){
         customerDTOS.clear();
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement", "root", "7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select * from customer");
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -293,7 +294,7 @@ public class CustomerController implements Initializable {
                 );
                 customerDTOS.add(customerDTO);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

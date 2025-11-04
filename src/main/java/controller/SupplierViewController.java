@@ -1,5 +1,6 @@
 package controller;
 
+import connectionDB.ConnectionOB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -158,14 +159,14 @@ public class SupplierViewController implements Initializable {
     void btnDelete(ActionEvent event) {
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement", "root", "7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM supplier WHERE SupplierID = ?");
             preparedStatement.setObject(1,txtSupplierId.getText());
             preparedStatement.executeUpdate();
 
             loadSupplierDetail();
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         clareField();
@@ -184,7 +185,7 @@ public class SupplierViewController implements Initializable {
         String email = txtEmail.getText();
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement", "root", "7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement stm=connection.prepareStatement("UPDATE supplier SET Name = ? , CompanyName = ? , Address = ? , City = ? , Province = ? , PostalCode = ? , Phone=?, Email= ? WHERE SupplierID=?");
 
             stm.setObject(1,name);
@@ -201,7 +202,7 @@ public class SupplierViewController implements Initializable {
             clareField();
             loadSupplierDetail();
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -253,7 +254,7 @@ public class SupplierViewController implements Initializable {
     private void loadSupplierDetail(){
         supplierDTOS.clear();
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Togakademanagement", "root", "7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select * from supplier");
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -273,7 +274,7 @@ public class SupplierViewController implements Initializable {
 
             };
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         tblSupplier.setItems(supplierDTOS);

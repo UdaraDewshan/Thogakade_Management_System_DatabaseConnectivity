@@ -1,5 +1,6 @@
 package controller;
 
+import connectionDB.ConnectionOB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -123,7 +124,7 @@ public class EmployeeController implements Initializable {
          String status = txtStatus.getText();
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO employee VALUES (?,?,?,?,?,?,?,?,?,?)");
             preparedStatement.setObject(1,employeeId);
             preparedStatement.setObject(2,name);
@@ -138,7 +139,7 @@ public class EmployeeController implements Initializable {
 
             preparedStatement.execute();
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -170,7 +171,7 @@ public class EmployeeController implements Initializable {
     @FXML
     void btnDelete(ActionEvent event) {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM employee WHERE EmployeeID = ? ");
             preparedStatement.setObject(1,txtEmpId.getText());
             int i = preparedStatement.executeUpdate();
@@ -181,7 +182,7 @@ public class EmployeeController implements Initializable {
                 JOptionPane.showMessageDialog(null,"Deleted Unsuccess");
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         loadTable();
@@ -202,7 +203,7 @@ public class EmployeeController implements Initializable {
         String status = txtStatus.getText();
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE employee SET Name = ?, NIC = ?, DateOfBirth = ? , Position = ?, Salary = ?, ContactNumber = ?, Address = ?, JoinedDate = ?, Status = ? WHERE EmployeeID = ?");
             preparedStatement.setObject(1,name);
             preparedStatement.setObject(2,nic);
@@ -222,10 +223,9 @@ public class EmployeeController implements Initializable {
                 JOptionPane.showMessageDialog(null,"Update Unsuccess");
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
         loadTable();
         clearField();
     }
@@ -247,7 +247,7 @@ public class EmployeeController implements Initializable {
     private void loadTable(){
         employeeDTOS.clear();
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
+            Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM employee");
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -266,7 +266,7 @@ public class EmployeeController implements Initializable {
                 );
                 employeeDTOS.add(employeeDTO);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

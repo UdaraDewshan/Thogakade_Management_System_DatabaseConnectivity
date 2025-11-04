@@ -14,13 +14,10 @@ public class CatagoryPageController {
 
     @FXML
     private Button btnCusManagement;
-
     @FXML
     private Button btnEmployeeManagement;
-
     @FXML
     private Button btnItemManagement;
-
     @FXML
     private Button btnSupManagement;
 

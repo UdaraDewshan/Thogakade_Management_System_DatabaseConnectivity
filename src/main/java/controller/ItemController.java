@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 public class ItemController implements Initializable {
 
     ObservableList<ItemDTO> itemDTOS = FXCollections.observableArrayList();
-
+    ItemService itemService = new Item_DB_Controller();
 
     @FXML
     private TextField txtCatagary;
@@ -77,7 +77,7 @@ public class ItemController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadTable();
+
 
         colCatogory.setCellValueFactory(new PropertyValueFactory<>("category"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -86,6 +86,8 @@ public class ItemController implements Initializable {
         colcode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
         tblItem.setItems(itemDTOS);
 
+        loadTable();
+        
         tblItem.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null){
                 txtItemCode.setText(newValue.getItemCode());
@@ -101,27 +103,7 @@ public class ItemController implements Initializable {
 
     private void loadTable() {
         itemDTOS.clear();
-        try {
-            Connection connection = ConnectionOB.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("select * FROM item");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()){
-                ItemDTO itemDTO = new ItemDTO(
-                        resultSet.getString(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getInt(4),
-                        resultSet.getDouble(5)
-                );
-                itemDTOS.add(itemDTO);
-            }
-
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-
+        tblItem.setItems(itemService.loadTable());
     }
 
     @FXML
@@ -132,19 +114,7 @@ public class ItemController implements Initializable {
         int qtyOnHand = Integer.parseInt(txtQty.getText());
         double unitPrice = Double.parseDouble(txtPrice.getText());
 
-        try {
-            Connection connection = ConnectionOB.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO item VALUES(?,?,?,?,?)");
-            preparedStatement.setObject(1,itemCode);
-            preparedStatement.setObject(2,description);
-            preparedStatement.setObject(3,category);
-            preparedStatement.setObject(4,qtyOnHand);
-            preparedStatement.setObject(5,unitPrice);
-
-            preparedStatement.execute();
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        itemService.add(itemCode,description,category,qtyOnHand,unitPrice);
 
         loadTable();
         clerText();
@@ -175,21 +145,7 @@ public class ItemController implements Initializable {
     @FXML
     void btnDeleteAction(ActionEvent event) {
 
-        try {
-            Connection connection = ConnectionOB.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM item WHERE ItemCode = ? ");
-            preparedStatement.setObject(1,txtItemCode.getText());
-            int i = preparedStatement.executeUpdate();
-
-            if (i>0){
-                JOptionPane.showMessageDialog(null,"DELETE SUCCESS");
-            }else{
-                JOptionPane.showMessageDialog(null,"DELETE UNSUCCESS");
-            }
-
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        itemService.delete(txtItemCode.getText());
 
         loadTable();
         clerText();
@@ -203,26 +159,7 @@ public class ItemController implements Initializable {
         int qtyOnHand = Integer.parseInt(txtQty.getText());
         double unitPrice = Double.parseDouble(txtPrice.getText());
 
-        try {
-            Connection connection = ConnectionOB.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE item SET Description = ?, Category = ?, QtyOnHand = ? , UnitPrice = ? WHERE ItemCode = ?");
-            preparedStatement.setObject(1,description);
-            preparedStatement.setObject(2,category);
-            preparedStatement.setObject(3,qtyOnHand);
-            preparedStatement.setObject(4,unitPrice);
-            preparedStatement.setObject(5,itemCode);
-
-            int i = preparedStatement.executeUpdate();
-            if (i>0){
-                JOptionPane.showMessageDialog(null,"Update success");
-            }else{
-                JOptionPane.showMessageDialog(null,"Update Unsuccess");
-            }
-
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
+        itemService.update(itemCode,description,category,qtyOnHand,unitPrice);
         loadTable();
         clerText();
     }

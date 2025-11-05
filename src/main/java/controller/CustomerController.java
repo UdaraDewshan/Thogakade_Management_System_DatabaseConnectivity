@@ -25,6 +25,8 @@ import java.util.ResourceBundle;
 public class CustomerController implements Initializable {
 
     ObservableList<CustomerDTO> customerDTOS = FXCollections.observableArrayList();
+    CustemerService custemerService = new Customer_DB_Controller();
+
 
 
     @FXML
@@ -102,8 +104,6 @@ public class CustomerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        loadCustomerDetails();
-
         colCusID.setCellValueFactory(new PropertyValueFactory<>("custID"));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -114,6 +114,8 @@ public class CustomerController implements Initializable {
         colProvince.setCellValueFactory(new PropertyValueFactory<>("province"));
         colPostalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         tblCustomer.setItems(customerDTOS);
+
+        loadCustomerDetails();
 
         tblCustomer.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue != null){
@@ -143,30 +145,7 @@ public class CustomerController implements Initializable {
          String province = txtProvince.getText();
          String postalCode = txtPostalCode.getText();
 
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO customer VALUES(?,?,?,?,?,?,?,?,?)");
-
-            preparedStatement.setString(1,custID);
-            preparedStatement.setString(2,title);
-            preparedStatement.setString(3,name);
-            preparedStatement.setString(4,dob);
-            preparedStatement.setString(5, String.valueOf(salary));
-            preparedStatement.setString(6,address);
-            preparedStatement.setString(7,city);
-            preparedStatement.setString(8,province);
-            preparedStatement.setString(9,postalCode);
-
-            int rowsInserted = preparedStatement.executeUpdate();
-
-            if (rowsInserted > 0) {
-                JOptionPane.showMessageDialog(null, "Added Successfully!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Add Unsuccessful!");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        custemerService.addCustomerDetails(custID,title,name,dob,salary,address,city,province,postalCode);
         loadCustomerDetails();
         clearFlild();
     }
@@ -195,14 +174,7 @@ public class CustomerController implements Initializable {
 
     @FXML
     void btnDeleteAction(ActionEvent event) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM customer WHERE CustomerID = ?");
-            preparedStatement.setString(1,txtCustID.getText());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        custemerService.deleteCustomer(txtCustID.getText());
         loadCustomerDetails();
         clearFlild();
     }
@@ -219,26 +191,8 @@ public class CustomerController implements Initializable {
         String province = txtProvince.getText();
         String postalCode = txtPostalCode.getText();
 
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement","root","7392");
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE customer SET Title =?, Name =?, DateOfBirth=?, Salary =?, Address= ? ,City=? , Province= ?, PostalCode=? WHERE CustomerID = ?");
 
-            preparedStatement.setObject(1,title);
-            preparedStatement.setObject(2,name);
-            preparedStatement.setObject(3,dob);
-            preparedStatement.setObject(4,salary);
-            preparedStatement.setObject(5,address);
-            preparedStatement.setObject(6,city);
-            preparedStatement.setObject(7,province);
-            preparedStatement.setObject(8,postalCode);
-            preparedStatement.setObject(9,custID);
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+        custemerService.updateCustomer(custID,title,name,dob,salary,address,city,province,postalCode);
         loadCustomerDetails();
         clearFlild();
 
@@ -259,7 +213,6 @@ public class CustomerController implements Initializable {
     }
 
 
-
     private void clearFlild(){
         txtAddress.setText("");
         txtCity.setText("");
@@ -274,28 +227,7 @@ public class CustomerController implements Initializable {
 
     private void loadCustomerDetails(){
         customerDTOS.clear();
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/togakademanagement", "root", "7392");
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from customer");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()){
-                CustomerDTO customerDTO = new CustomerDTO(
-                        resultSet.getString(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getString(4),
-                        resultSet.getDouble(5),
-                        resultSet.getString(6),
-                        resultSet.getString(7),
-                        resultSet.getString(8),
-                        resultSet.getString(9)
-                );
-                customerDTOS.add(customerDTO);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        tblCustomer.setItems(custemerService.loadTable());
     }
 
 }

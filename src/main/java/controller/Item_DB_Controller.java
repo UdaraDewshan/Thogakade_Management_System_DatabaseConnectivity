@@ -24,7 +24,12 @@ public class Item_DB_Controller implements ItemService{
             preparedStatement.setObject(4,qtyOnHand);
             preparedStatement.setObject(5,unitPrice);
 
-            preparedStatement.execute();
+            int i = preparedStatement.executeUpdate();
+            if (i>0){
+                JOptionPane.showMessageDialog(null, "Add Successfully!");
+            }else{
+                JOptionPane.showMessageDialog(null, "Add Unsuccessful!");
+            }
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

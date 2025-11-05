@@ -4,6 +4,7 @@ import connectionDB.ConnectionOB;
 import javafx.collections.ObservableList;
 import model.dto.SupplierDTO;
 
+import javax.swing.*;
 import java.sql.*;
 
 public class Supplier_DB_Controller implements SupplierService{
@@ -22,7 +23,12 @@ public class Supplier_DB_Controller implements SupplierService{
             preparedStatement.setObject(8,phone);
             preparedStatement.setObject(9,email);
 
-            preparedStatement.execute();
+            int i = preparedStatement.executeUpdate();
+            if (i>0){
+                JOptionPane.showMessageDialog(null, "Added Successfully!");
+            }else{
+                JOptionPane.showMessageDialog(null, "Added Unsuccessful!");
+            }
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -35,7 +41,13 @@ public class Supplier_DB_Controller implements SupplierService{
             Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM supplier WHERE SupplierID = ?");
             preparedStatement.setObject(1,supplierID);
-            preparedStatement.executeUpdate();
+            int i = preparedStatement.executeUpdate();
+
+            if (i>0){
+                JOptionPane.showMessageDialog(null, "Deleted Successfully!");
+            }else{
+                JOptionPane.showMessageDialog(null, "Deleted Unsuccessful!");
+            }
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -58,7 +70,12 @@ public class Supplier_DB_Controller implements SupplierService{
             stm.setObject(8,email);
             stm.setObject(9,supplierID);
 
-            stm.executeUpdate();
+            int i = stm.executeUpdate();
+            if (i>0){
+                JOptionPane.showMessageDialog(null, "Updated Successfully!");
+            }else{
+                JOptionPane.showMessageDialog(null, "Updated Unsuccessful!");
+            }
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);

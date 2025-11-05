@@ -29,7 +29,12 @@ public class Employee_DB_Controller implements EmployeeService{
             preparedStatement.setObject(9,joinedDate);
             preparedStatement.setObject(10,status);
 
-            preparedStatement.execute();
+            int i = preparedStatement.executeUpdate();
+            if (i>0){
+                JOptionPane.showMessageDialog(null, "Add Successfully!");
+            }else{
+                JOptionPane.showMessageDialog(null, "Add Unsuccessful!");
+            }
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);

@@ -46,7 +46,14 @@ public class Customer_DB_Controller implements CustemerService{
             Connection connection = ConnectionOB.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM customer WHERE CustomerID = ?");
             preparedStatement.setString(1,custId);
-            preparedStatement.executeUpdate();
+            int i = preparedStatement.executeUpdate();
+
+            if (i>0){
+                JOptionPane.showMessageDialog(null, "Deleted Successfully!");
+            }else{
+                JOptionPane.showMessageDialog(null, "Deleted Unsuccessful!");
+            }
+
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -68,7 +75,13 @@ public class Customer_DB_Controller implements CustemerService{
             preparedStatement.setObject(8,postalCode);
             preparedStatement.setObject(9,custID);
 
-            preparedStatement.executeUpdate();
+            int i = preparedStatement.executeUpdate();
+
+            if (i>0){
+                JOptionPane.showMessageDialog(null, "updated Successfully!");
+            }else{
+                JOptionPane.showMessageDialog(null, "updated Unsuccessful!");
+            }
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -102,7 +115,6 @@ public class Customer_DB_Controller implements CustemerService{
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
         return customerDTOS;
     }
 }

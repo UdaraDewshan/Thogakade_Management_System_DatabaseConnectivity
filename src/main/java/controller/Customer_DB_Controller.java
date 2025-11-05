@@ -105,9 +105,4 @@ public class Customer_DB_Controller implements CustemerService{
 
         return customerDTOS;
     }
-
-    public void name(){
-
-    }
-
 }

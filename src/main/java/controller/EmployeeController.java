@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 
 public class EmployeeController implements Initializable {
 
+    EmployeeService employeeService = new Employee_DB_Controller();
     ObservableList<EmployeeDTO> employeeDTOS = FXCollections.observableArrayList();
 
     @FXML
@@ -81,7 +82,6 @@ public class EmployeeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadTable();
         colAdress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colDob.setCellValueFactory(new PropertyValueFactory<>("dob"));
         colContact.setCellValueFactory(new PropertyValueFactory<>("contactName"));
@@ -93,6 +93,8 @@ public class EmployeeController implements Initializable {
         colStates.setCellValueFactory(new PropertyValueFactory<>("status"));
         colSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
         tblEmployee.setItems(employeeDTOS);
+
+
 
         tblEmployee.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue!=null){
@@ -108,11 +110,14 @@ public class EmployeeController implements Initializable {
                 txtStatus.setText(newValue.getStatus());
             }
         });
+        loadTable();
     }
+
+
 
     @FXML
     void btnAdd(ActionEvent event) {
-         String  employeeId = txtEmpId.getText();
+         String employeeId = txtEmpId.getText();
          String name = txtName.getText();
          String nic = txtNic.getText();
          String dob = txtDob.getText();
@@ -123,29 +128,9 @@ public class EmployeeController implements Initializable {
          String joinedDate = txtJoinDate.getText();
          String status = txtStatus.getText();
 
-        try {
-            Connection connection = ConnectionOB.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO employee VALUES (?,?,?,?,?,?,?,?,?,?)");
-            preparedStatement.setObject(1,employeeId);
-            preparedStatement.setObject(2,name);
-            preparedStatement.setObject(3,nic);
-            preparedStatement.setObject(4,dob);
-            preparedStatement.setObject(5,position);
-            preparedStatement.setObject(6,salary);
-            preparedStatement.setObject(7,contactName);
-            preparedStatement.setObject(8,address);
-            preparedStatement.setObject(9,joinedDate);
-            preparedStatement.setObject(10,status);
-
-            preparedStatement.execute();
-
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        loadTable();
-        clearField();
-
+         employeeService.addEmployeeDetails(employeeId,name,nic,dob,position,salary,contactName,address,joinedDate,status);
+         loadTable();
+         clearField();
     }
 
     @FXML
@@ -170,21 +155,7 @@ public class EmployeeController implements Initializable {
 
     @FXML
     void btnDelete(ActionEvent event) {
-        try {
-            Connection connection = ConnectionOB.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM employee WHERE EmployeeID = ? ");
-            preparedStatement.setObject(1,txtEmpId.getText());
-            int i = preparedStatement.executeUpdate();
-
-            if (i>0){
-                JOptionPane.showMessageDialog(null,"Deleted success");
-            }else{
-                JOptionPane.showMessageDialog(null,"Deleted Unsuccess");
-            }
-
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        employeeService.delete(txtEmpId.getText());
         loadTable();
         clearField();
     }
@@ -202,30 +173,8 @@ public class EmployeeController implements Initializable {
         String joinedDate = txtJoinDate.getText();
         String status = txtStatus.getText();
 
-        try {
-            Connection connection = ConnectionOB.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE employee SET Name = ?, NIC = ?, DateOfBirth = ? , Position = ?, Salary = ?, ContactNumber = ?, Address = ?, JoinedDate = ?, Status = ? WHERE EmployeeID = ?");
-            preparedStatement.setObject(1,name);
-            preparedStatement.setObject(2,nic);
-            preparedStatement.setObject(3,dob);
-            preparedStatement.setObject(4,position);
-            preparedStatement.setObject(5,salary);
-            preparedStatement.setObject(6,contactName);
-            preparedStatement.setObject(7,address);
-            preparedStatement.setObject(8,joinedDate);
-            preparedStatement.setObject(9,status);
-            preparedStatement.setObject(10,employeeId);
+        employeeService.update(employeeId,name,nic,dob,position,salary,contactName,address,joinedDate,status);
 
-            int i = preparedStatement.executeUpdate();
-            if (i>0){
-                JOptionPane.showMessageDialog(null,"Update success");
-            }else{
-                JOptionPane.showMessageDialog(null,"Update Unsuccess");
-            }
-
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
         loadTable();
         clearField();
     }
@@ -245,30 +194,7 @@ public class EmployeeController implements Initializable {
     }
 
     private void loadTable(){
-        employeeDTOS.clear();
-        try {
-            Connection connection = ConnectionOB.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM employee");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()){
-                EmployeeDTO employeeDTO = new EmployeeDTO(
-                        resultSet.getString(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getString(4),
-                        resultSet.getString(5),
-                        resultSet.getDouble(6),
-                        resultSet.getString(7),
-                        resultSet.getString(8),
-                        resultSet.getString(9),
-                        resultSet.getString(10)
-                );
-                employeeDTOS.add(employeeDTO);
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        tblEmployee.setItems(employeeService.loadTable());
     }
 
 }

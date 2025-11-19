@@ -1,4 +1,4 @@
-package controller;
+package controller.customer;
 
 import connectionDB.ConnectionOB;
 import javafx.collections.ObservableList;
@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Customer_DB_Controller implements CustemerService{
+public class Customer_DB_Controller implements CustemerService {
 
     @Override
     public void addCustomerDetails(String custID,String title,String name,String dob,double salary,String address,String city,String province,String postalCode){

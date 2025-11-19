@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane prefHeight="519.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardController">
+<GridPane prefHeight="519.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Dashboard.DashboardController">
 
     <stylesheets>
         <URL value="@../css/Style.css" />

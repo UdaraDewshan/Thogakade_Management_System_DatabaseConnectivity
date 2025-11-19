@@ -1,7 +1,6 @@
-package controller;
+package controller.item;
 
 import connectionDB.ConnectionOB;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.dto.ItemDTO;
 
@@ -11,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Item_DB_Controller implements ItemService{
+public class Item_DB_Controller implements ItemService {
 
     @Override
     public void add(String itemCode, String description, String category, int qtyOnHand, double unitPrice) {

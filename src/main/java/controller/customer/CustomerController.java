@@ -1,4 +1,4 @@
-package controller;
+package controller.customer;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,10 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.dto.CustomerDTO;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
 import java.util.ResourceBundle;
 
 public class CustomerController implements Initializable {

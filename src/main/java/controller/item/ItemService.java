@@ -1,4 +1,4 @@
-package controller;
+package controller.item;
 
 import javafx.collections.ObservableList;
 import model.dto.ItemDTO;

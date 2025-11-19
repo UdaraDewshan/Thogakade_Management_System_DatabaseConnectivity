@@ -1,4 +1,4 @@
-package controller;
+package controller.supplier;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +17,6 @@ import model.dto.SupplierDTO;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
 import java.util.ResourceBundle;
 
 public class SupplierViewController implements Initializable {
@@ -120,8 +119,6 @@ public class SupplierViewController implements Initializable {
 
         loadSupplierDetail();
         clareField();
-
-
     }
 
     @FXML

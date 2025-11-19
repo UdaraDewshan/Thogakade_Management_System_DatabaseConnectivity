@@ -1,4 +1,4 @@
-package controller;
+package controller.supplier;
 
 import connectionDB.ConnectionOB;
 import javafx.collections.ObservableList;
@@ -7,7 +7,7 @@ import model.dto.SupplierDTO;
 import javax.swing.*;
 import java.sql.*;
 
-public class Supplier_DB_Controller implements SupplierService{
+public class Supplier_DB_Controller implements SupplierService {
     @Override
     public void add(String supplierID, String name, String companyName, String address, String city, String province, String postalCode, String phone, String email) {
         try {

@@ -1,6 +1,5 @@
-package controller;
+package controller.employee;
 
-import connectionDB.ConnectionOB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,10 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.dto.EmployeeDTO;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
 import java.util.ResourceBundle;
 
 public class EmployeeController implements Initializable {

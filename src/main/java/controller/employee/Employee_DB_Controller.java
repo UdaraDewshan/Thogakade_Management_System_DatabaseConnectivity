@@ -1,8 +1,7 @@
-package controller;
+package controller.employee;
 
 import connectionDB.ConnectionOB;
 import javafx.collections.ObservableList;
-import model.dto.CustomerDTO;
 import model.dto.EmployeeDTO;
 
 import javax.swing.*;
@@ -11,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Employee_DB_Controller implements EmployeeService{
+public class Employee_DB_Controller implements EmployeeService {
 
     @Override
     public void addEmployeeDetails(String employeeId, String name, String nic, String dob, String position, double salary, String contactName, String address, String joinedDate, String status) {

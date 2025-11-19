@@ -3,9 +3,9 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -40,7 +40,11 @@ public class CatagoryPageController {
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/CustomerView.fxml"))));
             stage.setTitle("Customer Management");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Bug");
+            alert.setHeaderText("Failed to load Customer Management");
+            alert.setContentText(e.getMessage());
+            alert.show();
         }
         Stage stage1 = (Stage) btnCusManagement.getScene().getWindow();
         stage1.close();
@@ -54,7 +58,11 @@ public class CatagoryPageController {
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/EmployeeView.fxml"))));
             stage.setTitle("Employee Management");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Bug");
+            alert.setHeaderText("Failed to load Employee Management");
+            alert.setContentText(e.getMessage());
+            alert.show();
         }
         Stage stage1 = (Stage) btnCusManagement.getScene().getWindow();
         stage1.close();
@@ -68,7 +76,11 @@ public class CatagoryPageController {
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/ItemForm.fxml"))));
             stage.setTitle("Item Management");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Failed to load Item Management");
+            alert.setContentText(e.getMessage());
+            alert.show();
         }
         Stage stage1 = (Stage) btnCusManagement.getScene().getWindow();
         stage1.close();
@@ -82,7 +94,11 @@ public class CatagoryPageController {
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/SupplierView.fxml"))));
             stage.setTitle("Supplier Management");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Failed to load Supplier Management");
+            alert.setContentText(e.getMessage());
+            alert.show();
         }
         Stage stage1 = (Stage) btnCusManagement.getScene().getWindow();
         stage1.close();

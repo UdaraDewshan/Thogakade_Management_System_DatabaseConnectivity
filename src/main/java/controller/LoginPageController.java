@@ -41,14 +41,14 @@ public class LoginPageController {
                     stage.setTitle("Dashboard");
                 }else{
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
+                    alert.setTitle("Password Error");
                     alert.setHeaderText(null);
                     alert.setContentText("Error Password");
                     alert.showAndWait();
                 }
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
+                alert.setTitle("Name Error");
                 alert.setHeaderText(null);
                 alert.setContentText("Error User Name");
                 alert.showAndWait();
